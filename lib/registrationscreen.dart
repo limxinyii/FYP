@@ -21,26 +21,26 @@ String _name, _email, _password, _phone;
 class RegistrationScreen extends StatefulWidget {
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
-  const RegistrationScreen({Key key, File image}):super(key:key);
+  const RegistrationScreen({Key key, File image}) : super(key: key);
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    
     return WillPopScope(
       onWillPop: _onBackPressAppBar,
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
         appBar: AppBar(
           backgroundColor: Colors.blueAccent,
-          title: Text("Registration"),
+          title: Text("Registration",
+          style: TextStyle(color: Colors.white),
+          ),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -49,8 +49,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
         ),
       ),
-    
-   );
+    );
   }
 
   Future<bool> _onBackPressAppBar() async {
@@ -62,7 +61,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 }
 
 class RegisterWidget extends StatefulWidget {
-  
   @override
   _RegisterWidgetState createState() => _RegisterWidgetState();
 }
@@ -107,46 +105,70 @@ class _RegisterWidgetState extends State<RegisterWidget> {
         SizedBox(
           height: 20,
         ),
-        new TextFormField(
+        TextFormField(
             controller: _emcontroller,
             autovalidate: _autoValidate,
             validator: _validateEmail,
             keyboardType: TextInputType.emailAddress,
-            decoration:
-                InputDecoration(labelText: 'Email', icon: Icon(Icons.email))),
-
-        new TextFormField(
+            decoration: InputDecoration(
+              labelText: 'Email',
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blueAccent),
+              ),
+            )),
+            SizedBox(
+          height: 10,
+        ),
+        TextFormField(
             controller: _namecontroller,
             autovalidate: _autoValidate,
             validator: _validateName,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               labelText: 'Name',
-              icon: Icon(Icons.person),
+              border: OutlineInputBorder(borderSide: BorderSide()),
             )),
-
-        new TextFormField(
+            SizedBox(
+          height: 10,
+        ),
+        TextFormField(
           controller: _passcontroller,
           autovalidate: _autoValidate,
           validator: _validatePassword,
-          decoration:
-              InputDecoration(labelText: 'Password', icon: Icon(Icons.lock)),
+          decoration: InputDecoration(
+            labelText: 'Password',
+            border: OutlineInputBorder(),
+          ),
           obscureText: true,
         ),
-
-        new TextFormField(
+        SizedBox(
+          height: 10,
+        ),
+        TextFormField(
             controller: _phcontroller,
             autovalidate: _autoValidate,
             validator: _validatePhone,
             keyboardType: TextInputType.phone,
-
-            decoration:
-                InputDecoration(labelText: 'Phone', icon: Icon(Icons.phone))
-        ),
-        
-        SizedBox(
+            decoration: InputDecoration(
+              labelText: 'Phone',
+              border: OutlineInputBorder(),
+            )),
+              SizedBox(
           height: 10,
         ),
+        /*TextFormField(
+            controller: _dobcontroller,
+            autovalidate: _autoValidate,
+            validator: _validateDob,
+            keyboardType: TextInputType.phone,
+            decoration: InputDecoration(
+              labelText: 'Date of Birth',
+              hintText: 'eg: 1997-10-22',
+              border: OutlineInputBorder(),
+            )),
+        SizedBox(
+          height: 10,
+        ),*/
         Padding(
           padding: EdgeInsets.only(top: 10, bottom: 10),
           child: MaterialButton(
@@ -226,7 +248,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
     //selection==null?_image = await ImagePicker.pickImage(source: ImageSource.camera):await ImagePicker.pickImage(source: ImageSource.gallery);
   }
 
-   String _validateEmail(String value) {
+  String _validateEmail(String value) {
     // The form is empty
     if (value.length == 0) {
       return "Please enter your email";
@@ -263,17 +285,24 @@ class _RegisterWidgetState extends State<RegisterWidget> {
       return null;
     }
   }
+    /*String _validateDob(String value) {
+    if (value.length == 0) {
+      return "Please enter your date of birth";
+    } else {
+      return null;
+    }
+  }*/
 
   String _validatePhone(String value) {
     String p = r'(^[0-9]*$)';
-     RegExp regExp = new RegExp(p);
-     if(value.length == 0){
-       return "Please enter your phone number";
-     } else if (value.length <9 || value.length > 11) {
-       return "Phone number must 10-11 digits";
-     }else if (!regExp.hasMatch(value)){
-       return "Please enter correct phone number";
-     }
+    RegExp regExp = new RegExp(p);
+    if (value.length == 0) {
+      return "Please enter your phone number";
+    } else if (value.length < 9 || value.length > 11) {
+      return "Phone number must 10-11 digits";
+    } else if (!regExp.hasMatch(value)) {
+      return "Please enter correct phone number";
+    }
   }
 
   /*void _onRegister(){
@@ -293,6 +322,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
     _email = _emcontroller.text;
     _password = _passcontroller.text;
     _phone = _phcontroller.text;
+    //_dob = _dobcontroller.text;
 
     if ((_isEmailValid(_email)) &&
         (_password.length > 5) &&
@@ -310,6 +340,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
         "email": _email,
         "password": _password,
         "phone": _phone,
+        //"dob": _dob,
       }).then((res) {
         print(res.statusCode);
         Toast.show(res.body, context,
@@ -319,6 +350,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
         _emcontroller.text = "";
         _passcontroller.text = "";
         _phcontroller.text = "";
+        //_dobcontroller.text = "";
 
         pr.dismiss();
         if (res.body == "Email Registered! Please try again") {
@@ -379,7 +411,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Thanks for your registration'),
-            content: const Text('You can login now'),
+            content: const Text('Please get verify account from your email'),
             actions: <Widget>[
               FlatButton(
                 child: Text(

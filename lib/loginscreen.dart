@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-//import 'package:lab_2/forgotpassscreen.dart';
-import 'adminpage.dart';
+import 'package:my_ole/forgotpassscreen.dart';
+import 'package:my_ole/mainscreen.dart';
+import 'forgotpassscreen.dart';
+import 'mainscreen.dart';
 import 'registrationscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -9,7 +11,7 @@ import 'package:toast/toast.dart';
 import 'package:http/http.dart' as http;
 import 'user.dart';
 
-String urlLogin = "http://myondb.com/myole/php/login.php";
+String urlLogin = "http://myondb.com/oleproject/php/login.php";
 final TextEditingController _emcontroller = TextEditingController();
 String _email = "";
 final TextEditingController _passcontroller = TextEditingController();
@@ -61,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: <Widget>[
                 Image.asset(
                   'assets/images/ole.png',
-                  scale: 2.5,
+                  scale: 2.8,
                 ),
                 new TextFormField(
                     controller: _emcontroller,
@@ -210,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => AdminPage()));
+                  builder: (context) => MainScreen(user: user)));
         } else {
           pr.dismiss();
         }
@@ -232,9 +234,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _onForget() {
-    //print('Forgot password');
-    //Navigator.push(
-        //context, MaterialPageRoute(builder: (context) => ForgotPassScreen()));
+    print('Forgot password');
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ForgotPassScreen()));
   }
 
   void _onChange(bool value) {
