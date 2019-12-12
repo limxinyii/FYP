@@ -38,8 +38,8 @@ class _LoginScreenState extends State<LoginScreen> {
   GlobalKey<FormState> _globalKey = new GlobalKey();
   bool _autoValidate = false;
   bool _isChecked = false;
-  var role = ['Admin','User'];
-  var role_selected = 'User';
+  var role = ['Select Role', 'Admin', 'User'];
+  var role_selected = 'Select Role';
 
   @override
   void initState() {
@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-       SystemChrome.setSystemUIOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Colors.blue));
     return WillPopScope(
         onWillPop: _onBackPressAppBar,
@@ -63,41 +63,52 @@ class _LoginScreenState extends State<LoginScreen> {
               children: <Widget>[
                 Image.asset(
                   'assets/images/ole.png',
-                  scale: 2.8,
+                  scale: 3.0,
                 ),
-                new TextFormField(
+                SizedBox(
+                  height: 15,
+                ),
+                TextFormField(
                     controller: _emcontroller,
                     autovalidate: _autoValidate,
                     validator: _validateEmail,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                        labelText: 'Email', icon: Icon(Icons.email))),
-                new TextFormField(
+                        labelText: 'Email',
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blueGrey),
+                        ))),
+                SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
                   controller: _passcontroller,
                   autovalidate: _autoValidate,
                   validator: _validatePassword,
                   decoration: InputDecoration(
-                      labelText: 'Password', icon: Icon(Icons.lock)),
+                      labelText: 'Password',
+                       border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blueAccent))),
                   obscureText: true,
                 ),
-               Row(
+                Row(
                   children: <Widget>[
-                  DropdownButton<String>(
-                    items: role.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String newValueSelected) {
-                      setState(() {
-                         this.role_selected = newValueSelected;
-                      });
-                    },
-                    value: role_selected,
-                  ),
+                    DropdownButton<String>(
+                      items: role.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (String newValueSelected) {
+                        setState(() {
+                          this.role_selected = newValueSelected;
+                        });
+                      },
+                      value: role_selected,
+                    ),
                   ],
-               ),
+                ),
                 Row(
                   children: <Widget>[
                     Checkbox(
@@ -117,9 +128,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(20.0)),
                   minWidth: 200,
                   height: 50,
-                  child: Text('LOGIN',
-                  style: TextStyle(
-                  fontSize: 18, letterSpacing: 0.8), ),
+                  child: Text(
+                    'LOGIN',
+                    style: TextStyle(fontSize: 18, letterSpacing: 0.8),
+                  ),
                   color: Colors.blue[700],
                   textColor: Colors.white,
                   //elevation: 15,
@@ -130,11 +142,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 GestureDetector(
                   onTap: _onRegister,
-                  child: Text("Don't have an account?",
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.blue,
-                    fontWeight: FontWeight.bold),
+                  child: Text(
+                    "Don't have an account?",
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(
@@ -142,12 +155,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 GestureDetector(
                   onTap: _onForget,
-                  child: Text('Forgot Password',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.blue,
-                    fontWeight: FontWeight.bold),
-                    ),
+                  child: Text(
+                    'Forgot Password',
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ],
             ),
@@ -206,13 +220,11 @@ class _LoginScreenState extends State<LoginScreen> {
             duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
         if (dres[0] == "Login Successful") {
           pr.dismiss();
-         // print("Radius:");
+          // print("Radius:");
           print(dres);
-          User user = new User(name:dres[1],email: dres[2],phone: dres[3]);
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => MainScreen(user: user)));
+          User user = new User(name: dres[1], email: dres[2], phone: dres[3]);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MainScreen(user: user)));
         } else {
           pr.dismiss();
         }

@@ -26,8 +26,8 @@ class SplashScreen extends StatelessWidget {
             children: <Widget>[
               Image.asset(
                 'assets/images/ole.png',
-                width: 250,
-                height: 250,
+                width: 280,
+                height: 280,
               ),
               SizedBox(
                 height: 20,

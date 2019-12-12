@@ -31,7 +31,7 @@ class _ForgotPasswordScreenState extends State<ForgotPassScreen> {
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
         appBar: AppBar(
-          backgroundColor:  Colors.red,
+          backgroundColor:  Colors.blue,
           title: Text('Forgot Password'),
         ), 
         body: GestureDetector(
@@ -107,8 +107,9 @@ class _PasswordWidgetState extends State<PasswordWidget> {
                       borderRadius: BorderRadius.circular(20.0)),
                   minWidth: 200,
                   height: 50,
-                  child: Text('Submit'),
-                  color: Color.fromRGBO(250, 50, 12, 1),
+                  child: Text('SUBMIT', 
+                  style: TextStyle(fontSize: 18, letterSpacing: 0.8),),
+                  color: Colors.blue[700],
                   textColor: Colors.white,
                   elevation: 15,
                   onPressed: _onPressed,
