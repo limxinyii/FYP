@@ -14,7 +14,7 @@ import 'user.dart';
 import 'admin.dart';
 
 String urlLogin = "http://myondb.com/oleproject/php/login.php";
-String urlLoginAdmin ="http://myondb.com/oleproject/php/login_admin.php";
+String urlLoginAdmin = "http://myondb.com/oleproject/php/login_admin.php";
 final TextEditingController _emcontroller = TextEditingController();
 String _email = "";
 final TextEditingController _passcontroller = TextEditingController();
@@ -90,11 +90,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   validator: _validatePassword,
                   decoration: InputDecoration(
                       labelText: 'Password',
-                       border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blueAccent))),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blueAccent))),
                   obscureText: true,
                 ),
-               /* Row(
+                /* Row(
                   children: <Widget>[
                     DropdownButton<String>(
                       items: role.map((String value) {
@@ -126,45 +126,46 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: 15,
                 ),
-                 Text('Login as: ', style: TextStyle(fontSize: 15,
-                 letterSpacing: 0.8)),
-                 SizedBox(
+                Text('Login as: ',
+                    style: TextStyle(fontSize: 15, letterSpacing: 0.8)),
+                SizedBox(
                   height: 15,
                 ),
-                Container(child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                   MaterialButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)),
-                  minWidth: 120,
-                  height: 50,
-                  child: Text(
-                    'Admin',
-                    style: TextStyle(fontSize: 18, letterSpacing: 0.8),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0)),
+                        minWidth: 120,
+                        height: 50,
+                        child: Text(
+                          'Admin',
+                          style: TextStyle(fontSize: 18, letterSpacing: 0.8),
+                        ),
+                        color: Colors.blue[700],
+                        textColor: Colors.white,
+                        //elevation: 15,
+                        onPressed: _onLoginAdmin,
+                      ),
+                      MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0)),
+                        minWidth: 120,
+                        height: 50,
+                        child: Text(
+                          'User',
+                          style: TextStyle(fontSize: 18, letterSpacing: 0.8),
+                        ),
+                        color: Colors.blue[700],
+                        textColor: Colors.white,
+                        //elevation: 15,
+                        onPressed: _onLogin,
+                      ),
+                    ],
                   ),
-                  color: Colors.blue[700],
-                  textColor: Colors.white,
-                  //elevation: 15,
-                  onPressed: _onLoginAdmin,
                 ),
-                MaterialButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)),
-                  minWidth: 120,
-                  height: 50,
-                  child: Text(
-                    'User',
-                    style: TextStyle(fontSize: 18, letterSpacing: 0.8),
-                  ),
-                  color: Colors.blue[700],
-                  textColor: Colors.white,
-                  //elevation: 15,
-                  onPressed: _onLogin,
-                ),
-                ],
-                ),),
-               
                 SizedBox(
                   height: 20,
                 ),
@@ -251,8 +252,10 @@ class _LoginScreenState extends State<LoginScreen> {
           // print("Radius:");
           print(dres);
           Admin admin = new Admin(name: dres[1], email: dres[2]);
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AdminMainScreen(admin: admin)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AdminMainScreen(admin: admin)));
         } else {
           pr.dismiss();
         }
@@ -266,7 +269,6 @@ class _LoginScreenState extends State<LoginScreen> {
       });
     }
   }
-
 
   void _onLogin() {
     _email = _emcontroller.text;
@@ -291,7 +293,12 @@ class _LoginScreenState extends State<LoginScreen> {
           pr.dismiss();
           // print("Radius:");
           print(dres);
-          User user = new User(name: dres[1], email: dres[2], phone: dres[3], dob: dres[4], address: dres[5]);
+          User user = new User(
+              name: dres[1],
+              email: dres[2],
+              phone: dres[3],
+              dob: dres[4],
+              address: dres[5]);
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => MainScreen(user: user)));
         } else {

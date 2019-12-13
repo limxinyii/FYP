@@ -58,11 +58,11 @@ class _MainScreenState extends State<MainScreen> {
             title: Text("Home"),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.category, ),
-            title: Text("Category"),
+            icon: Icon(Icons.category),
+            title: Text("Course"),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person, ),
+            icon: Icon(Icons.person),
             title: Text("Profile"),
           ),
           /*BottomNavigationBarItem(

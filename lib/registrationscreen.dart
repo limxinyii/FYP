@@ -448,7 +448,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Thanks for your registration'),
-            content: const Text('Please get verify account from your email'),
+            content: const Text('You can login now!'),
             actions: <Widget>[
               FlatButton(
                 child: Text(
