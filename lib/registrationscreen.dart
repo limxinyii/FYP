@@ -44,7 +44,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           backgroundColor: Colors.blueAccent,
           title: Text(
             "Registration",
-            style: TextStyle(color: Colors.white),
+            //style: TextStyle(color: Colors.white),
           ),
         ),
         body: SingleChildScrollView(

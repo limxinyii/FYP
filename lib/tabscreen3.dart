@@ -725,8 +725,8 @@ class _TabScreen3State extends State<TabScreen3> {
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Go to login page?" + widget.user.name),
-          content: new Text("Are your sure?"),
+          title: new Text("Go to login page? " + widget.user.name),
+          content: new Text("Are your sure? "),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(

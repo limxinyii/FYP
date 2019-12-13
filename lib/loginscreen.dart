@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'adminscreen.dart';
 import 'package:my_ole/forgotpassscreen.dart';
 import 'package:my_ole/mainscreen.dart';
 import 'forgotpassscreen.dart';
@@ -10,8 +11,10 @@ import 'package:progress_dialog/progress_dialog.dart';
 import 'package:toast/toast.dart';
 import 'package:http/http.dart' as http;
 import 'user.dart';
+import 'admin.dart';
 
 String urlLogin = "http://myondb.com/oleproject/php/login.php";
+String urlLoginAdmin ="http://myondb.com/oleproject/php/login_admin.php";
 final TextEditingController _emcontroller = TextEditingController();
 String _email = "";
 final TextEditingController _passcontroller = TextEditingController();
@@ -38,8 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
   GlobalKey<FormState> _globalKey = new GlobalKey();
   bool _autoValidate = false;
   bool _isChecked = false;
-  var role = ['Select Role', 'Admin', 'User'];
-  var role_selected = 'Select Role';
+  //var role = ['Select Role', 'Admin', 'User'];
+  //var role_selected = 'Select Role';
 
   @override
   void initState() {
@@ -91,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 borderSide: BorderSide(color: Colors.blueAccent))),
                   obscureText: true,
                 ),
-                Row(
+               /* Row(
                   children: <Widget>[
                     DropdownButton<String>(
                       items: role.map((String value) {
@@ -108,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       value: role_selected,
                     ),
                   ],
-                ),
+                ),*/
                 Row(
                   children: <Widget>[
                     Checkbox(
@@ -123,13 +126,35 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: 15,
                 ),
+                 Text('Login as: ', style: TextStyle(fontSize: 15,
+                 letterSpacing: 0.8)),
+                 SizedBox(
+                  height: 15,
+                ),
+                Container(child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                   MaterialButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0)),
+                  minWidth: 120,
+                  height: 50,
+                  child: Text(
+                    'Admin',
+                    style: TextStyle(fontSize: 18, letterSpacing: 0.8),
+                  ),
+                  color: Colors.blue[700],
+                  textColor: Colors.white,
+                  //elevation: 15,
+                  onPressed: _onLoginAdmin,
+                ),
                 MaterialButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0)),
-                  minWidth: 200,
+                  minWidth: 120,
                   height: 50,
                   child: Text(
-                    'LOGIN',
+                    'User',
                     style: TextStyle(fontSize: 18, letterSpacing: 0.8),
                   ),
                   color: Colors.blue[700],
@@ -137,6 +162,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   //elevation: 15,
                   onPressed: _onLogin,
                 ),
+                ],
+                ),),
+               
                 SizedBox(
                   height: 20,
                 ),
@@ -198,6 +226,47 @@ class _LoginScreenState extends State<LoginScreen> {
       return null;
     }
   }
+
+  void _onLoginAdmin() {
+    _email = _emcontroller.text;
+    _password = _passcontroller.text;
+
+    if (_isEmailValid(_email) && (_password.length > 5)) {
+      ProgressDialog pr = new ProgressDialog(context,
+          type: ProgressDialogType.Normal, isDismissible: false);
+      pr.style(message: "Login In");
+      pr.show();
+      http.post(urlLoginAdmin, body: {
+        "email": _email,
+        "password": _password,
+      }).then((res) {
+        print(res.statusCode);
+        var string = res.body;
+        List dres = string.split(",");
+        print(dres);
+        Toast.show(dres[0], context,
+            duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+        if (dres[0] == "Login Successful") {
+          pr.dismiss();
+          // print("Radius:");
+          print(dres);
+          Admin admin = new Admin(name: dres[1], email: dres[2]);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AdminMainScreen(admin: admin)));
+        } else {
+          pr.dismiss();
+        }
+      }).catchError((error) {
+        pr.dismiss();
+        print(error);
+      });
+    } else {
+      setState(() {
+        _autoValidate = true;
+      });
+    }
+  }
+
 
   void _onLogin() {
     _email = _emcontroller.text;

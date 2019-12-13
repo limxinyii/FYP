@@ -71,6 +71,10 @@ class _PasswordWidgetState extends State<PasswordWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+         SizedBox(
+          height: 10,
+        ),
+
         Text("Forgot Password?",
                   style: TextStyle(
                     color: Colors.blueGrey,
