@@ -7,6 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:toast/toast.dart';
 import 'dart:async';
+import 'package:intl/intl.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 String pathAsset = 'assets/images/profile_icon.png';
 String urlUpload = 'http://myondb.com/oleproject/php/register.php';
@@ -15,8 +17,10 @@ final TextEditingController _namecontroller = TextEditingController();
 final TextEditingController _emcontroller = TextEditingController();
 final TextEditingController _passcontroller = TextEditingController();
 final TextEditingController _phcontroller = TextEditingController();
+final TextEditingController _dobcontroller = TextEditingController();
+final TextEditingController _addcontroller = TextEditingController();
 
-String _name, _email, _password, _phone;
+String _name, _email, _password, _phone, _dob, _address;
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -38,18 +42,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         resizeToAvoidBottomPadding: false,
         appBar: AppBar(
           backgroundColor: Colors.blueAccent,
-          title: Text("Registration",
-          style: TextStyle(color: Colors.white),
+          title: Text(
+            "Registration",
+            style: TextStyle(color: Colors.white),
           ),
         ),
         body: SingleChildScrollView(
+             child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onPanDown: (_) {
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
           child: Container(
             padding: EdgeInsets.fromLTRB(40, 20, 40, 20),
             child: RegisterWidget(),
           ),
         ),
       ),
-    );
+    ));
   }
 
   Future<bool> _onBackPressAppBar() async {
@@ -66,6 +76,8 @@ class RegisterWidget extends StatefulWidget {
 }
 
 class _RegisterWidgetState extends State<RegisterWidget> {
+  final format = DateFormat("yyyy-MM-dd");
+
   GlobalKey<FormState> _globalKey = new GlobalKey();
   bool _autoValidate = false;
   @override
@@ -79,8 +91,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
             Padding(
               padding: EdgeInsets.only(left: 50, right: 50, top: 5),
               child: Container(
-                height: 180,
-                width: 180,
+                height: 170,
+                width: 170,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
@@ -113,10 +125,9 @@ class _RegisterWidgetState extends State<RegisterWidget> {
             decoration: InputDecoration(
               labelText: 'Email',
               border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blueAccent),
-              ),
+                borderSide: BorderSide(color: Colors.blueAccent)),
             )),
-            SizedBox(
+        SizedBox(
           height: 10,
         ),
         TextFormField(
@@ -126,9 +137,10 @@ class _RegisterWidgetState extends State<RegisterWidget> {
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               labelText: 'Name',
-              border: OutlineInputBorder(borderSide: BorderSide()),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blueAccent)),
             )),
-            SizedBox(
+        SizedBox(
           height: 10,
         ),
         TextFormField(
@@ -137,7 +149,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
           validator: _validatePassword,
           decoration: InputDecoration(
             labelText: 'Password',
-            border: OutlineInputBorder(),
+            border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blueAccent)),
           ),
           obscureText: true,
         ),
@@ -151,24 +164,44 @@ class _RegisterWidgetState extends State<RegisterWidget> {
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(
               labelText: 'Phone',
-              border: OutlineInputBorder(),
-            )),
-              SizedBox(
-          height: 10,
-        ),
-        /*TextFormField(
-            controller: _dobcontroller,
-            autovalidate: _autoValidate,
-            validator: _validateDob,
-            keyboardType: TextInputType.phone,
-            decoration: InputDecoration(
-              labelText: 'Date of Birth',
-              hintText: 'eg: 1997-10-22',
-              border: OutlineInputBorder(),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blueAccent)),
             )),
         SizedBox(
           height: 10,
-        ),*/
+        ),
+        DateTimeField(
+          controller: _dobcontroller,
+          format: format,
+          decoration: InputDecoration(
+            labelText: 'Date of birth',
+            border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blueAccent)),
+          ),
+          onShowPicker: (context, currentValue) {
+            return showDatePicker(
+                context: context,
+                firstDate: DateTime(1990),
+                initialDate: currentValue ?? DateTime.now(),
+                lastDate: DateTime(2020));
+          },
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+            controller: _addcontroller,
+            autovalidate: _autoValidate,
+            validator: _validateAddress,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              labelText: 'Address',
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blueAccent)),
+            )),
+        SizedBox(
+          height: 10,
+        ),
         Padding(
           padding: EdgeInsets.only(top: 10, bottom: 10),
           child: MaterialButton(
@@ -285,13 +318,6 @@ class _RegisterWidgetState extends State<RegisterWidget> {
       return null;
     }
   }
-    /*String _validateDob(String value) {
-    if (value.length == 0) {
-      return "Please enter your date of birth";
-    } else {
-      return null;
-    }
-  }*/
 
   String _validatePhone(String value) {
     String p = r'(^[0-9]*$)';
@@ -302,6 +328,14 @@ class _RegisterWidgetState extends State<RegisterWidget> {
       return "Phone number must 10-11 digits";
     } else if (!regExp.hasMatch(value)) {
       return "Please enter correct phone number";
+    }
+  }
+  
+  String _validateAddress(String value) {
+    if (value.length == 0) {
+      return "Please enter your address";
+    } else {
+      return null;
     }
   }
 
@@ -322,7 +356,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
     _email = _emcontroller.text;
     _password = _passcontroller.text;
     _phone = _phcontroller.text;
-    //_dob = _dobcontroller.text;
+    _dob = _dobcontroller.text;
+    _address = _addcontroller.text;
 
     if ((_isEmailValid(_email)) &&
         (_password.length > 5) &&
@@ -340,7 +375,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
         "email": _email,
         "password": _password,
         "phone": _phone,
-        //"dob": _dob,
+        "dob": _dob,
+        "address": _address, 
       }).then((res) {
         print(res.statusCode);
         Toast.show(res.body, context,
@@ -350,7 +386,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
         _emcontroller.text = "";
         _passcontroller.text = "";
         _phcontroller.text = "";
-        //_dobcontroller.text = "";
+        _dobcontroller.text = "";
+        _addcontroller.text = "";
 
         pr.dismiss();
         if (res.body == "Email Registered! Please try again") {
