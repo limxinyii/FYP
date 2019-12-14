@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_ole/loginscreen.dart';
+import 'package:my_ole/manageprofile.dart';
+import 'package:my_ole/user.dart';
 import 'admin.dart';
 import 'loginscreen.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -217,10 +219,7 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
               leading: Icon(Icons.person),
               title: Text('Trainee Profile'),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => Page1()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProfile()));
               },
             ),
             ListTile(

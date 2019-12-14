@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:my_ole/content.dart';
 import 'user.dart';
 import 'package:toast/toast.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -195,7 +196,7 @@ class _DetailInterfaceState extends State<DetailInterface> {
             dob: dres[4],
             address: dres[5]);
         Navigator.push(ctx,
-            MaterialPageRoute(builder: (context) => MainScreen(user: user)));
+            MaterialPageRoute(builder: (context) => CourseContent(user: user)));
       }
     }).catchError((err) {
       print(err);
