@@ -69,7 +69,7 @@ class _TabScreenState extends State<TabScreen> {
                               //height: 50,
                            // color: Colors.blue,
                             child: Center(
-                              child:  Text("Course",
+                              child:  Text("Course Enroll",
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,

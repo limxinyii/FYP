@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_ole/loginscreen.dart';
+import 'package:my_ole/managecourse.dart';
 import 'package:my_ole/manageprofile.dart';
+import 'package:my_ole/quiz.dart';
 import 'package:my_ole/user.dart';
 import 'admin.dart';
 import 'loginscreen.dart';
@@ -199,10 +201,7 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
               title: Text('Manage Course'),
               onTap: () {
                 print("cliked");
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => Page1(advertiser: advertiser)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ManageCourse()));
               },
             ),
             ListTile(
@@ -212,7 +211,7 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
                 // Update the state of the app
                 // ...
                 // Then close the drawer
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => Page1()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => QuizScreen()));
               },
             ),
              ListTile(
