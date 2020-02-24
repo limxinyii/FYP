@@ -1,11 +1,12 @@
 class Course {
-  String courseid, coursename, coursedes, courseduration, courseimage, userenroll;
+  String courseid, coursename, courseduration, coursedes, courseimage, postdate, userenroll;
 
   Course(
       {this.courseid,
       this.coursename,
-      this.coursedes,
       this.courseduration,
+      this.coursedes,
+      this.postdate,
       this.courseimage,
       this.userenroll});
 }
